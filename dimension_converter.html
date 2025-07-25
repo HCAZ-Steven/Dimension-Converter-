@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dimension Converter (CM to IN)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      padding: 40px;
+    }
+    .converter {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="converter">
+  <h2>CM to IN Dimension Converter</h2>
+  <input type="text" id="dimensionInput" placeholder="e.g. 26*26*102CM">
+  <button onclick="convertDimensions()">Convert</button>
+  <div id="output"></div>
+</div>
+
+<script>
+  function convertDimensions() {
+    let input = document.getElementById("dimensionInput").value.trim().toUpperCase();
+    input = input.replace("CM", ""); // remove 'CM'
+    
+    const parts = input.split("*");
+    if (parts.length !== 3) {
+      document.getElementById("output").textContent = "Please enter dimensions in the format: 26*26*102CM";
+      return;
+    }
+
+    const converted = parts.map(value => {
+      const cm = parseFloat(value);
+      if (isNaN(cm)) return null;
+      return (cm / 2.54).toFixed(2);
+    });
+
+    if (converted.includes(null)) {
+      document.getElementById("output").textContent = "Invalid numbers in input.";
+      return;
+    }
+
+    const result = `${converted.join("*")} IN`;
+    document.getElementById("output").textContent = result;
+  }
+</script>
+
+</body>
+</html>
